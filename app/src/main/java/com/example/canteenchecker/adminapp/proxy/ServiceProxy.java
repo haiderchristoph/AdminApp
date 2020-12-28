@@ -1,6 +1,7 @@
 package com.example.canteenchecker.adminapp.proxy;
 
 import com.example.canteenchecker.adminapp.core.CanteenDetails;
+import com.example.canteenchecker.adminapp.core.ReviewData;
 
 import java.io.IOException;
 
@@ -10,4 +11,5 @@ public interface ServiceProxy {
     boolean updateCanteenData(String authToken, String name, String website, String phoneNumber, String address) throws IOException;
     boolean updateCanteenDish(String authToken, String dish, float dishPrice) throws IOException;
     boolean updateCanteenWaitingTime(String authToken, int waitingTime) throws IOException;
+    ReviewData getCanteenReviewsData(String authToken) throws IOException;
 }

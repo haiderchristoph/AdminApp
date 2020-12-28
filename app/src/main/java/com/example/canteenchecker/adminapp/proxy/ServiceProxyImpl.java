@@ -1,6 +1,7 @@
 package com.example.canteenchecker.adminapp.proxy;
 
 import com.example.canteenchecker.adminapp.core.CanteenDetails;
+import com.example.canteenchecker.adminapp.core.ReviewData;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -56,6 +57,12 @@ public class ServiceProxyImpl implements ServiceProxy {
         return true;
     }
 
+    @Override
+    public ReviewData getCanteenReviewsData(String authToken) throws IOException {
+        Proxy_CanteenReviewStatistics reviewData = proxy.getCanteenReviewStatistics(String.format("Bearer %s", authToken)).execute().body();
+        return reviewData != null ? reviewData.toReviewData() : null;
+    }
+
     private interface Proxy {
         @POST("authenticate")
         Call<String> authenticate(@Query("userName") String userName, @Query("password") String password);
@@ -71,6 +78,9 @@ public class ServiceProxyImpl implements ServiceProxy {
 
         @PUT("canteen/waiting-time")
         Call<Void> updateCanteenWaitingTime(@Header("Authorization") String authenticationToken, @Query("waitingTime") int waitingTime);
+
+        @GET("canteen/review-statistics")
+        Call<Proxy_CanteenReviewStatistics> getCanteenReviewStatistics(@Header("Authorization") String authenticationToken);
 
         /*@GET("canteens")
         Call<Collection<Proxy_CanteenData>> getCanteens(@Query("name") String name);
@@ -95,6 +105,18 @@ public class ServiceProxyImpl implements ServiceProxy {
 
         CanteenDetails toCanteenDetails() {
             return new CanteenDetails(name, phoneNumber, website, dish, dishPrice, address, waitingTime);
+        }
+    }
+
+    private static class Proxy_CanteenReviewStatistics {
+        int countOneStar;
+        int countTwoStars;
+        int countThreeStars;
+        int countFourStars;
+        int countFiveStars;
+
+        ReviewData toReviewData() {
+            return new ReviewData(countOneStar, countTwoStars, countThreeStars, countFourStars, countFiveStars);
         }
     }
 }

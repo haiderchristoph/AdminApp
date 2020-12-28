@@ -127,7 +127,7 @@ public class CanteenDetailsActivity extends AppCompatActivity {
             }
         });
 
-        //getFragmentManager().beginTransaction().replace(R.id.lnlReviews, ReviewsFragment.create(getCanteenId())).commit();
+        getFragmentManager().beginTransaction().replace(R.id.lnlReviews, ReviewsFragment.create()).commit();
 
         //LocalBroadcastManager.getInstance(this).registerReceiver(broadcastReceiver, Broadcasting.createCanteenChangedBroadcastIntentFilter());
 
@@ -172,8 +172,10 @@ public class CanteenDetailsActivity extends AppCompatActivity {
                     txvDishPrice.setText(NumberFormat.getCurrencyInstance().format(canteenDetails.getDishPrice()));
                     txvWaitingTime.setText(String.format("%s", canteenDetails.getWaitingTime()));
                     prbWaitingTime.setProgress(canteenDetails.getWaitingTime());
-                    txvPhoneNumber.setText(canteenDetails.getPhoneNumber());
-                    txvWebsite.setText(canteenDetails.getWebsite());
+                    String phoneNumber = canteenDetails.getPhoneNumber();
+                    String website = canteenDetails.getWebsite();
+                    txvPhoneNumber.setText(phoneNumber.trim().isEmpty() ? "-" : phoneNumber);
+                    txvWebsite.setText(website.trim().isEmpty() ? "-" : website);
 
                     new AsyncTask<String, Void, LatLng>() {
                         @Override

@@ -1,6 +1,8 @@
 package com.example.canteenchecker.adminapp.ui;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -27,6 +29,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.canteenchecker.adminapp.R;
 
@@ -159,22 +162,33 @@ public class EditReviewsActivity extends AppCompatActivity {
             }
 
             private void removeRating(String id) {
-                new AsyncTask<String, Void, Void>() {
-                    @Override
-                    protected Void doInBackground(String... strings) {
-                        // ToDo check if parameters can be removed (Strings)
-                        try {
-                            // ToDo validating the data, also in the FE
-                            String authToken = ((CanteenCheckerAdminApplication) getApplication()).getAuthenticationToken();
-                            boolean done = ServiceProxyFactory.createProxy().removeCanteenReview(authToken, id);
-                            // ToDo add a toast or something
-                        } catch (IOException e) {
-                            Log.e(TAG, String.format("Updating dish failed"), e);
-                        }
-                        // TODO add a toast or something
-                        return null;
-                    }
-                }.execute();
+                new AlertDialog.Builder(EditReviewsActivity.this)
+                        .setTitle(R.string.dialog_title)
+                        .setMessage(R.string.dialog_text)
+                        .setIcon(R.drawable.baseline_warning_24)
+                        .setPositiveButton(R.string.dialog_confirm, new DialogInterface.OnClickListener() {
+
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                new AsyncTask<String, Void, Void>() {
+                                    @Override
+                                    protected Void doInBackground(String... strings) {
+                                        // ToDo check if parameters can be removed (Strings)
+                                        try {
+                                            // ToDo validating the data, also in the FE
+                                            String authToken = ((CanteenCheckerAdminApplication) getApplication()).getAuthenticationToken();
+                                            boolean done = ServiceProxyFactory.createProxy().removeCanteenReview(authToken, id);
+                                            // ToDo add a toast or something
+                                        } catch (IOException e) {
+                                            Log.e(TAG, String.format("Updating dish failed"), e);
+                                        }
+                                        // TODO add a toast or something
+                                        return null;
+                                    }
+                                }.execute();
+                            }
+                        })
+                        .setNegativeButton(R.string.dialog_dismiss, null).show();
+
             }
         }
     }

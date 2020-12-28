@@ -58,4 +58,10 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_edit_reviews">EditReviewsActivity</string>
+
+    <!-- EditCanteenDetailsActivity AlertDialog -->
+    <string name="dialog_confirm">Confirm</string>
+    <string name="dialog_dismiss">Dismiss</string>
+    <string name="dialog_title">Delete Review</string>
+    <string name="dialog_text">Do you really want to delete this review? This action is irreversible and will affect your overall rating.</string>
 </resources>

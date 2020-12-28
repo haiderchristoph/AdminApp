@@ -68,13 +68,36 @@
                     android:layout_marginStart="@dimen/distance_small"
                     android:text="@string/text_minutes" />
             </LinearLayout>
-
             <ProgressBar
                 android:id="@+id/prbWaitingTime"
                 style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:max="60" />
+
+            <TextView
+                style="@style/TextAppearance.MaterialComponents.Overline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/distance_large"
+                android:text="@string/text_phone_number" />
+
+            <TextView
+                android:id="@+id/txvPhoneNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                style="@style/TextAppearance.MaterialComponents.Overline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/distance_large"
+                android:text="@string/text_website" />
+
+            <TextView
+                android:id="@+id/txvWebsite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
 
             <TextView
                 style="@style/TextAppearance.MaterialComponents.Overline"

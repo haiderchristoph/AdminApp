@@ -87,6 +87,8 @@ public class CanteenDetailsActivity extends AppCompatActivity {
     private TextView txvDish;
     private TextView txvDishPrice;
     private TextView txvWaitingTime;
+    private TextView txvPhoneNumber;
+    private TextView txvWebsite;
     private ProgressBar prbWaitingTime;
     private SupportMapFragment mpfMap;
 
@@ -103,6 +105,8 @@ public class CanteenDetailsActivity extends AppCompatActivity {
         txvDishPrice = findViewById(R.id.txvDishPrice);
         txvWaitingTime = findViewById(R.id.txvWaitingTime);
         prbWaitingTime = findViewById(R.id.prbWaitingTime);
+        txvPhoneNumber = findViewById(R.id.txvPhoneNumber);
+        txvWebsite = findViewById(R.id.txvWebsite);
 
 
         mpfMap = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mpfMap);
@@ -168,6 +172,8 @@ public class CanteenDetailsActivity extends AppCompatActivity {
                     txvDishPrice.setText(NumberFormat.getCurrencyInstance().format(canteenDetails.getDishPrice()));
                     txvWaitingTime.setText(String.format("%s", canteenDetails.getWaitingTime()));
                     prbWaitingTime.setProgress(canteenDetails.getWaitingTime());
+                    txvPhoneNumber.setText(canteenDetails.getPhoneNumber());
+                    txvWebsite.setText(canteenDetails.getWebsite());
 
                     new AsyncTask<String, Void, LatLng>() {
                         @Override

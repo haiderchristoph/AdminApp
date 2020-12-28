@@ -25,6 +25,8 @@
     <string name="text_minutes">minutes</string>
     <string name="text_location">Location</string>
     <string name="text_show_website">Show website</string>
+    <string name="text_phone_number">Phone</string>
+    <string name="text_website">Website</string>
     <string name="message_canteen_not_found">Canteen not found</string>
     <string name="text_call">Call</string>
     <string name="message_no_call_permission">No permission to make phone call</string>

@@ -1,7 +1,10 @@
 package com.example.canteenchecker.adminapp.proxy;
 
+import com.example.canteenchecker.adminapp.CanteenCheckerAdminApplication;
 import com.example.canteenchecker.adminapp.core.CanteenDetails;
+import com.example.canteenchecker.adminapp.core.Review;
 import com.example.canteenchecker.adminapp.core.ReviewData;
+import com.google.android.material.internal.ViewOverlayImpl;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -11,6 +14,7 @@ import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
@@ -63,6 +67,25 @@ public class ServiceProxyImpl implements ServiceProxy {
         return reviewData != null ? reviewData.toReviewData() : null;
     }
 
+    @Override
+    public Collection<Review> getCanteenReviews(String authToken) throws IOException {
+        Collection<Proxy_CanteenReview> reviews = proxy.getCanteenReviews(String.format("Bearer %s", authToken)).execute().body();
+        if (reviews == null) {
+            return null;
+        }
+        Collection<Review> result = new ArrayList<>(reviews.size());
+        for (Proxy_CanteenReview review : reviews) {
+            result.add(review.toReview());
+        }
+        return result;
+    }
+
+    @Override
+    public boolean removeCanteenReview(String authToken, String reviewId) throws IOException {
+        proxy.removeCanteenReview(String.format("Bearer %s", authToken), reviewId).execute().body();
+        return true;
+    }
+
     private interface Proxy {
         @POST("authenticate")
         Call<String> authenticate(@Query("userName") String userName, @Query("password") String password);
@@ -81,6 +104,12 @@ public class ServiceProxyImpl implements ServiceProxy {
 
         @GET("canteen/review-statistics")
         Call<Proxy_CanteenReviewStatistics> getCanteenReviewStatistics(@Header("Authorization") String authenticationToken);
+
+        @GET("canteen/reviews")
+        Call<Collection<Proxy_CanteenReview>> getCanteenReviews(@Header("Authorization") String authenticationToken);
+
+        @DELETE("canteen/reviews/{reviewId}")
+        Call<Void> removeCanteenReview(@Header("Authorization") String authenticationToken, @Path("reviewId") String reviewId);
 
         /*@GET("canteens")
         Call<Collection<Proxy_CanteenData>> getCanteens(@Query("name") String name);
@@ -117,6 +146,18 @@ public class ServiceProxyImpl implements ServiceProxy {
 
         ReviewData toReviewData() {
             return new ReviewData(countOneStar, countTwoStars, countThreeStars, countFourStars, countFiveStars);
+        }
+    }
+
+    private static class Proxy_CanteenReview {
+        String id;
+        String creationDate;
+        String creator;
+        int rating;
+        String remark;
+
+        Review toReview() {
+            return new Review(id, creationDate, creator, rating, remark);
         }
     }
 }

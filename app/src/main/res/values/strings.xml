@@ -57,4 +57,5 @@
     <string name="text_update_waiting_time">Update Waiting Time</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_edit_reviews">EditReviewsActivity</string>
 </resources>

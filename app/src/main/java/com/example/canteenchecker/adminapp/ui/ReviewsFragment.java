@@ -86,14 +86,11 @@ public class ReviewsFragment extends Fragment {
         prbRatingsFour = view.findViewById(R.id.prbRatingsFour);
         prbRatingsFive = view.findViewById(R.id.prbRatingsFive);
 
-        view.findViewById(R.id.btnShowReviews).setOnClickListener(v -> showReviews());
+        view.findViewById(R.id.btnShowReviews).setOnClickListener(v -> v.getContext().startActivity(EditReviewsActivity.createIntent(v.getContext())));
         //LocalBroadcastManager.getInstance(getActivity()).registerReceiver(broadcastReceiver, Broadcasting.createCanteenChangedBroadcastIntentFilter());
         updateReviews();
 
         return view;
-    }
-
-    private void showReviews() {
     }
 
     private String getCanteenId(){

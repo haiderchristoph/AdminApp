@@ -13,9 +13,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AdminApp">
         <activity
+            android:name=".ui.EditReviewsActivity"
+            android:label="@string/title_activity_edit_reviews"
+            android:theme="@style/Theme.AdminApp.NoActionBar"></activity>
+        <activity
             android:name=".ui.EditCanteenDetailsActivity"
             android:label="@string/title_activity_edit_canteen_details"
-            android:theme="@style/Theme.AdminApp.NoActionBar"></activity>
+            android:theme="@style/Theme.AdminApp.NoActionBar" />
         <activity
             android:name=".ui.CanteenDetailsActivity"
             android:label="@string/title_activity_canteen_details"
@@ -34,5 +38,10 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyBUZLyqxpufwgGknoyk4Lf27zaFkZGYBQw" />
     </application>
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+        </intent>
+    </queries>
 
 </manifest>

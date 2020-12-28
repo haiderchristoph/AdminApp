@@ -7,4 +7,5 @@
     <dimen name="distance_medium">16dp</dimen>
     <dimen name="distance_large">24dp</dimen>
     <dimen name="height_canteen_details_map">240dp</dimen>
+    <dimen name="size_delete_button">32dp</dimen>
 </resources>

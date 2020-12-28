@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ProgressBar
+        android:id="@+id/editViewProgress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center" />
+
+    <ScrollView
+        android:id="@+id/editViewContent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/distance_medium">
+
+            <EditText
+                android:id="@+id/editName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_name"
+                android:singleLine="true" />
+
+            <EditText
+                android:id="@+id/editWebsite"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_website"
+                android:singleLine="true" />
+
+            <EditText
+                android:id="@+id/editLocation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_location"
+                android:singleLine="true" />
+
+            <EditText
+                android:id="@+id/editPhoneNumber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_phone"
+                android:singleLine="true" />
+
+            <Button
+                android:id="@+id/btnUpdateBasicData"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/text_update_basic_data" />
+
+            <EditText
+                android:id="@+id/editDish"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_dish"
+                android:singleLine="true" />
+
+            <EditText
+                android:id="@+id/editDishPrice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_dish_price"
+                android:singleLine="true" />
+
+            <Button
+                android:id="@+id/btnUpdateDish"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/text_update_dish" />
+
+            <EditText
+                android:id="@+id/editWaitingTime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_waiting_time"
+                android:singleLine="true" />
+
+            <Button
+                android:id="@+id/btnUpdateWaitingTime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/text_update_waiting_time" />
+        </LinearLayout>
+    </ScrollView>
+</FrameLayout>

@@ -43,6 +43,12 @@
                 android:hint="@string/hint_location"
                 android:singleLine="true"
                 android:inputType="text" />
+            <fragment
+                android:id="@+id/mpfMap"
+                class="com.google.android.gms.maps.SupportMapFragment"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/height_canteen_details_map"
+                android:layout_marginTop="@dimen/distance_small" />
 
             <EditText
                 android:id="@+id/editPhoneNumber"

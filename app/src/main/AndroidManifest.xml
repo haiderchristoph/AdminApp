@@ -22,8 +22,7 @@
             android:theme="@style/Theme.AdminApp.NoActionBar" />
         <activity
             android:name=".ui.CanteenDetailsActivity"
-            android:label="@string/title_activity_canteen_details"
-            android:theme="@style/Theme.AdminApp.NoActionBar" />
+            android:label="@string/title_activity_canteen_details" />
         <activity
             android:name=".ui.LoginActivity"
             android:label="@string/app_name">

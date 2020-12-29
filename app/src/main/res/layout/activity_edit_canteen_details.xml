@@ -26,28 +26,31 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_name"
-                android:singleLine="true" />
-
+                android:singleLine="true"
+                android:inputType="text" />
             <EditText
                 android:id="@+id/editWebsite"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_website"
-                android:singleLine="true" />
+                android:singleLine="true"
+                android:inputType="textWebEmailAddress" />
 
             <EditText
                 android:id="@+id/editLocation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_location"
-                android:singleLine="true" />
+                android:singleLine="true"
+                android:inputType="text" />
 
             <EditText
                 android:id="@+id/editPhoneNumber"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_phone"
-                android:singleLine="true" />
+                android:singleLine="true"
+                android:inputType="phone"/>
 
             <Button
                 android:id="@+id/btnUpdateBasicData"
@@ -60,14 +63,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_dish"
-                android:singleLine="true" />
+                android:singleLine="true"
+                android:inputType="text"/>
 
             <EditText
                 android:id="@+id/editDishPrice"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_dish_price"
-                android:singleLine="true" />
+                android:singleLine="true"
+                android:inputType="numberDecimal"/>
 
             <Button
                 android:id="@+id/btnUpdateDish"
@@ -80,7 +85,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_waiting_time"
-                android:singleLine="true" />
+                android:singleLine="true"
+                android:inputType="number"
+                />
 
             <Button
                 android:id="@+id/btnUpdateWaitingTime"

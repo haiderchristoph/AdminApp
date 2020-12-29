@@ -55,17 +55,15 @@ public class LoginActivity extends AppCompatActivity {
                 }
 
                 @Override
-                protected void onPostExecute(String s) {
-                    if (s != null) {
-                        // ToDo save bearer globally for application
-                        ((CanteenCheckerAdminApplication) getApplication()).setAuthenticationToken(s);
-                        //((CanteenCheckerApplication) getApplication()).setAuthenticationToken(s);
+                protected void onPostExecute(String bearer) {
+                    if (bearer != null) {
+                        // save bearer globally for application
+                        ((CanteenCheckerAdminApplication) getApplication()).setAuthenticationToken(bearer);
                         setResult(RESULT_OK);
-                        // ToDo go to other activity
+                        // go to next activity
                         v.getContext().startActivity(CanteenDetailsActivity.createIntent(v.getContext()));
-
-
-                        //Toast.makeText(LoginActivity.this, "Login success", Toast.LENGTH_SHORT).show();
+                        // user should not go back to this activity
+                        finish();
                     } else {
                         setUIEnabled(true);
                         edtPassword.setText(null);

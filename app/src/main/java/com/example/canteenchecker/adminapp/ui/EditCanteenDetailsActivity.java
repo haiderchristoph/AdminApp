@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -89,10 +90,8 @@ public class EditCanteenDetailsActivity extends AppCompatActivity {
         decimalFormatSymbols.setCurrencySymbol(""); // no symbol
         ((DecimalFormat) nf).setDecimalFormatSymbols(decimalFormatSymbols);
 
-        // System.out.println(nf.format(12345.124).trim());
         String formattedDishPrice = nf.format(canteenDetails.getDishPrice());
         // remove leading whitespace
-        // ToDo: find out why there is a leading whitespace and why .trim() won't remove it
         formattedDishPrice = formattedDishPrice.replaceAll("\\s+", "");
         editDishPrice.setText(formattedDishPrice);
 
@@ -118,64 +117,113 @@ public class EditCanteenDetailsActivity extends AppCompatActivity {
         });
     }
 
+    private boolean isValidInteger(String value) {
+        try {
+            int parsedValue = Integer.parseInt(value);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    private boolean isValidFloat(String value) {
+        try {
+            float parsedValue = Float.parseFloat(value);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
     private void updateWaitingTime() {
-        new AsyncTask<String, Void, Void>() {
+        new AsyncTask<String, Void, Boolean>() {
             @Override
-            protected Void doInBackground(String... strings) {
-                // ToDo check if parameters can be removed (Strings)
+            protected Boolean doInBackground(String... strings) {
                 try {
-                    // ToDo validating the data, also in the FE
-                    String authToken = ((CanteenCheckerAdminApplication) getApplication()).getAuthenticationToken();
-                    String waitingTimeString = editWaitingTime.getText().toString();
-                    int waitingTime = Integer.parseInt(waitingTimeString);
-                    boolean done = ServiceProxyFactory.createProxy().updateCanteenWaitingTime(authToken, waitingTime);
-                    // ToDo add a toast or something
+                    // validating the data, also in the FE
+                    if (isValidInteger(strings[1])) {
+                        int waitingTime = Integer.parseInt(strings[1]);
+                        ServiceProxyFactory.createProxy().updateCanteenWaitingTime(strings[0], waitingTime);
+                        return true;
+                    } else {
+                        // invalid data
+                        return false;
+                    }
                 } catch (IOException e) {
                     Log.e(TAG, String.format("Updating waiting time failed"), e);
                 }
-                // TODO add a toast or something
-                return null;
+                Toast.makeText(EditCanteenDetailsActivity.this, R.string.update_failed, Toast.LENGTH_SHORT).show();
+                return false;
             }
-        }.execute();
+            @Override
+            protected void onPostExecute(Boolean success) {
+                if (!success) {
+                    // invalid data, call setError
+                    editWaitingTime.setError(getResources().getString(R.string.invalid_waiting_time));
+                } else {
+                    Toast.makeText(EditCanteenDetailsActivity.this, R.string.update_successful, Toast.LENGTH_SHORT).show();
+                }
+                super.onPostExecute(success);
+            }
+        }.execute(((CanteenCheckerAdminApplication) getApplication()).getAuthenticationToken(), editWaitingTime.getText().toString());
     }
 
     private void updateCanteenDish() {
-        new AsyncTask<String, Void, Void>() {
+        new AsyncTask<String, Void, Boolean>() {
             @Override
-            protected Void doInBackground(String... strings) {
-                // ToDo check if parameters can be removed (Strings)
+            protected Boolean doInBackground(String... strings) {
                 try {
-                    // ToDo validating the data, also in the FE
-                    String authToken = ((CanteenCheckerAdminApplication) getApplication()).getAuthenticationToken();
-                    String dishPriceString = editDishPrice.getText().toString();
+                    // validating the data, also in the FE
+                    String dishPriceString = strings[1];
+                    // normalize string to fit for parseFloat method
                     dishPriceString = dishPriceString.replace(',', '.');
-                    float dishPrice = Float.parseFloat(dishPriceString);
-                    boolean done = ServiceProxyFactory.createProxy().updateCanteenDish(authToken, editDish.getText().toString(), dishPrice);
-                    // ToDo add a toast or something
+                    if (isValidFloat(dishPriceString)) {
+                        float dishPrice = Float.parseFloat(dishPriceString);
+                        boolean done = ServiceProxyFactory.createProxy().updateCanteenDish(strings[0], strings[2], dishPrice);
+                        return true;
+                    } else {
+                        return false;
+                    }
                 } catch (IOException e) {
                     Log.e(TAG, String.format("Updating dish failed"), e);
                 }
-                // TODO add a toast or something
-                return null;
+                Toast.makeText(EditCanteenDetailsActivity.this, R.string.update_failed, Toast.LENGTH_SHORT).show();
+                return false;
             }
-        }.execute();
+            @Override
+            protected void onPostExecute(Boolean success) {
+                if (!success) {
+                    // invalid data, call setError
+                    editDishPrice.setError(getResources().getString(R.string.invalid_dish_price));
+                } else {
+                    Toast.makeText(EditCanteenDetailsActivity.this, R.string.update_successful, Toast.LENGTH_SHORT).show();
+                }
+                super.onPostExecute(success);
+            }
+        }.execute(((CanteenCheckerAdminApplication) getApplication()).getAuthenticationToken(), editDishPrice.getText().toString(), editDish.getText().toString());
     }
 
     private void updateCanteenData() {
-        new AsyncTask<String, Void, Void>() {
+        new AsyncTask<String, Void, Boolean>() {
             @Override
-            protected Void doInBackground(String... strings) {
-                // ToDo check if parameters can be removed (Strings)
+            protected Boolean doInBackground(String... strings) {
                 try {
-                    String authToken = ((CanteenCheckerAdminApplication) getApplication()).getAuthenticationToken();
-                    boolean done = ServiceProxyFactory.createProxy().updateCanteenData(authToken, editName.getText().toString(), editWebsite.getText().toString(), editPhoneNumber.getText().toString(), editLocation.getText().toString());
-                    // ToDo add a toast or something
+                    ServiceProxyFactory.createProxy().updateCanteenData(strings[0], strings[1], strings[2], strings[3], strings[4]);
+                    return true;
                 } catch (IOException e) {
                     Log.e(TAG, String.format("Updating basic data failed"), e);
                 }
-                // TODO add a toast or something
-                return null;
+                return false;
             }
-        }.execute();
+            @Override
+            protected void onPostExecute(Boolean success) {
+                if (!success) {
+                    Toast.makeText(EditCanteenDetailsActivity.this, R.string.update_failed, Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(EditCanteenDetailsActivity.this, R.string.update_successful, Toast.LENGTH_SHORT).show();
+                }
+                super.onPostExecute(success);
+            }
+        }.execute(((CanteenCheckerAdminApplication) getApplication()).getAuthenticationToken(), editName.getText().toString(), editWebsite.getText().toString(), editPhoneNumber.getText().toString(), editLocation.getText().toString());
     }
 }

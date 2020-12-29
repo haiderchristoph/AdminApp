@@ -30,8 +30,10 @@ import com.example.canteenchecker.adminapp.proxy.ServiceProxyFactory;
 
 import java.io.IOException;
 import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 public class EditReviewsActivity extends AppCompatActivity {
@@ -55,8 +57,6 @@ public class EditReviewsActivity extends AppCompatActivity {
         }
     };
 
-    //private SwipeRefreshLayout srlSwipeRefreshLayout;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,8 +78,6 @@ public class EditReviewsActivity extends AppCompatActivity {
     }
 
     private void updateReviews() {
-        //srlSwipeRefreshLayout.setRefreshing(true);
-
         new AsyncTask<String, Void, Collection<Review>>() {
             @Override
             protected Collection<Review> doInBackground(String... strings) {
@@ -99,7 +97,6 @@ public class EditReviewsActivity extends AppCompatActivity {
                 if (canteens != null) {
                     Log.i(TAG, "Reviews loaded: " + canteens.size());
                 }
-                //srlSwipeRefreshLayout.setRefreshing(false);
             }
         }.execute();
     }
@@ -110,14 +107,12 @@ public class EditReviewsActivity extends AppCompatActivity {
         @NonNull
         @Override
         public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            //Log.d(TAG, "onCreateViewHolder");
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_review, parent, false);
             return new ViewHolder(view);
         }
 
         @Override
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-            //Log.d(TAG, "onBindViewHolder " + position + " " + holder);
             holder.updateView(reviewList.get(position));
         }
 
@@ -132,6 +127,16 @@ public class EditReviewsActivity extends AppCompatActivity {
                 reviewList.addAll(canteens);
             }
             notifyDataSetChanged();
+        }
+
+        private String getFormattedDate(String value) {
+            // same format as on web Admin Dashboard
+            try {
+                Date date = (new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS")).parse(value);
+                return new SimpleDateFormat("dd.mm.yyyy hh:mm:ss").format(date);
+            } catch (Exception e) {
+                return value;
+            }
         }
 
         class ViewHolder extends RecyclerView.ViewHolder {
@@ -151,8 +156,7 @@ public class EditReviewsActivity extends AppCompatActivity {
                 txvRemark.setText(review.getRemark());
                 rtbRating.setRating(review.getRating());
                 txvRating.setText(NumberFormat.getNumberInstance().format(review.getRating()));
-                txvCreationDate.setText(review.getCreationDate());
-
+                txvCreationDate.setText(getFormattedDate(review.getCreationDate()));
                 btnRemoveRating.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -173,20 +177,15 @@ public class EditReviewsActivity extends AppCompatActivity {
                                 new AsyncTask<String, Void, Void>() {
                                     @Override
                                     protected Void doInBackground(String... strings) {
-                                        // ToDo check if parameters can be removed (Strings)
                                         try {
-                                            // ToDo validating the data, also in the FE
-                                            String authToken = ((CanteenCheckerAdminApplication) getApplication()).getAuthenticationToken();
-                                            boolean done = ServiceProxyFactory.createProxy().removeCanteenReview(authToken, id);
+                                            ServiceProxyFactory.createProxy().removeCanteenReview(strings[0], strings[1]);
                                             updateReviews();
-                                            // ToDo add a toast or something
                                         } catch (IOException e) {
                                             Log.e(TAG, String.format("Updating dish failed"), e);
                                         }
-                                        // TODO add a toast or something
                                         return null;
                                     }
-                                }.execute();
+                                }.execute(((CanteenCheckerAdminApplication) getApplication()).getAuthenticationToken(), id);
                             }
                         })
                         .setNegativeButton(R.string.dialog_dismiss, null).show();

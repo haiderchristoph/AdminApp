@@ -2,36 +2,24 @@ package com.example.canteenchecker.adminapp.ui;
 
 import android.content.Context;
 import android.content.Intent;
-import android.location.Address;
-import android.location.Geocoder;
 import android.os.AsyncTask;
 import android.os.Bundle;
-
-import com.example.canteenchecker.adminapp.CanteenCheckerAdminApplication;
-import com.example.canteenchecker.adminapp.core.CanteenDetails;
-import com.example.canteenchecker.adminapp.proxy.ServiceProxyFactory;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.canteenchecker.adminapp.CanteenCheckerAdminApplication;
 import com.example.canteenchecker.adminapp.R;
+import com.example.canteenchecker.adminapp.core.CanteenDetails;
+import com.example.canteenchecker.adminapp.proxy.ServiceProxyFactory;
 
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
-import java.util.List;
 
 public class EditCanteenDetailsActivity extends AppCompatActivity {
     private static final String TAG = EditCanteenDetailsActivity.class.toString();

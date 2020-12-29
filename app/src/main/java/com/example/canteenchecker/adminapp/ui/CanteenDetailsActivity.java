@@ -1,38 +1,26 @@
 package com.example.canteenchecker.adminapp.ui;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-//import androidx.localbroadcastmanager.content.LocalBroadcastManager;
-
-import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-/*import com.example.canteenchecker.consumerapp.R;
-import com.example.canteenchecker.consumerapp.core.Broadcasting;
-import com.example.canteenchecker.consumerapp.core.CanteenDetails;
-import com.example.canteenchecker.consumerapp.proxy.ServiceProxyFactory;
-*/
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
 import com.example.canteenchecker.adminapp.CanteenCheckerAdminApplication;
 import com.example.canteenchecker.adminapp.R;
+import com.example.canteenchecker.adminapp.core.Broadcasting;
 import com.example.canteenchecker.adminapp.core.CanteenDetails;
 import com.example.canteenchecker.adminapp.proxy.ServiceProxyFactory;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -45,11 +33,10 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.text.NumberFormat;
 import java.util.List;
+
+//import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 public class CanteenDetailsActivity extends AppCompatActivity {
 
@@ -64,18 +51,8 @@ public class CanteenDetailsActivity extends AppCompatActivity {
         return intent;
     }
 
-    /*
-    private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String canteenId = getCanteenId();
-            if (canteenId != null && canteenId.equals(Broadcasting.extractCanteenId(intent))) {
-                updateCanteenDetails();
-            }
-        }
-    };
 
-     */
+    private BroadcastReceiver broadcastReceiver = null;
 
     private CanteenDetails canteen = null;
 
@@ -127,9 +104,6 @@ public class CanteenDetailsActivity extends AppCompatActivity {
             }
         });
 
-        getFragmentManager().beginTransaction().replace(R.id.lnlReviews, ReviewsFragment.create()).commit();
-
-        //LocalBroadcastManager.getInstance(this).registerReceiver(broadcastReceiver, Broadcasting.createCanteenChangedBroadcastIntentFilter());
 
         updateCanteenDetails();
     }
@@ -137,7 +111,7 @@ public class CanteenDetailsActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        //LocalBroadcastManager.getInstance(this).unregisterReceiver(broadcastReceiver);
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(broadcastReceiver);
     }
 
     @SuppressLint("StaticFieldLeak")
@@ -147,8 +121,7 @@ public class CanteenDetailsActivity extends AppCompatActivity {
             protected CanteenDetails doInBackground(String... strings) {
                 try {
                     String authToken = ((CanteenCheckerAdminApplication) getApplication()).getAuthenticationToken();
-                    CanteenDetails d = ServiceProxyFactory.createProxy().getCanteen(authToken);
-                    return d;
+                    return ServiceProxyFactory.createProxy().getCanteen(authToken);
                 } catch (IOException e) {
                     Log.e(TAG, String.format("Downloading of canteen failed."), e);
                 }
@@ -160,6 +133,20 @@ public class CanteenDetailsActivity extends AppCompatActivity {
                 canteen = canteenDetails;
                 invalidateOptionsMenu();
                 if (canteenDetails != null) {
+                    if (broadcastReceiver == null) {
+                        broadcastReceiver = new BroadcastReceiver() {
+                            @Override
+                            public void onReceive(Context context, Intent intent) {
+                                String canteenId = canteenDetails.getId();
+                                if (canteenId != null && canteenId.equals(Broadcasting.extractCanteenId(intent))) {
+                                    updateCanteenDetails();
+                                }
+                            }
+                        };
+                        LocalBroadcastManager.getInstance(CanteenDetailsActivity.this).registerReceiver(broadcastReceiver, Broadcasting.createCanteenChangedBroadcastIntentFilter());
+                        getFragmentManager().beginTransaction().replace(R.id.lnlReviews, ReviewsFragment.create(canteen.getId())).commit();
+                    }
+
                     ((CanteenCheckerAdminApplication) getApplication()).setCanteenDetails(canteenDetails);
                     // make ui visible
                     viwProgress.setVisibility(View.GONE);

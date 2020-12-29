@@ -1,10 +1,8 @@
 package com.example.canteenchecker.adminapp.proxy;
 
-import com.example.canteenchecker.adminapp.CanteenCheckerAdminApplication;
 import com.example.canteenchecker.adminapp.core.CanteenDetails;
 import com.example.canteenchecker.adminapp.core.Review;
 import com.example.canteenchecker.adminapp.core.ReviewData;
-import com.google.android.material.internal.ViewOverlayImpl;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -110,20 +108,10 @@ public class ServiceProxyImpl implements ServiceProxy {
 
         @DELETE("canteen/reviews/{reviewId}")
         Call<Void> removeCanteenReview(@Header("Authorization") String authenticationToken, @Path("reviewId") String reviewId);
-
-        /*@GET("canteens")
-        Call<Collection<Proxy_CanteenData>> getCanteens(@Query("name") String name);
-
-        @GET("canteens/{canteenId}/review-statistics")
-        Call<Proxy_CanteenReviewStatistics> getReviewStatisticsForCanteen(@Path("canteenId") String canteenId);
-
-        @POST("canteens/{canteenId}/reviews")
-        Call<Void> postCanteenReview(@Header("Authorization") String authenticationToken, @Path("canteenId") String canteenId, @Query("rating") int rating, @Query("remark") String remark);
-
-         */
     }
 
     private static class Proxy_CanteenDetails {
+        String id;
         String name;
         String address;
         String phoneNumber;
@@ -133,7 +121,7 @@ public class ServiceProxyImpl implements ServiceProxy {
         int waitingTime;
 
         CanteenDetails toCanteenDetails() {
-            return new CanteenDetails(name, phoneNumber, website, dish, dishPrice, address, waitingTime);
+            return new CanteenDetails(id, name, phoneNumber, website, dish, dishPrice, address, waitingTime);
         }
     }
 

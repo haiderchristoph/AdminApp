@@ -18,20 +18,12 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
-import androidx.loader.content.AsyncTaskLoader;
-/*import androidx.localbroadcastmanager.content.LocalBroadcastManager;
-
-import com.example.canteenchecker.consumerapp.CanteenCheckerApplication;
-import com.example.canteenchecker.consumerapp.R;
-import com.example.canteenchecker.consumerapp.core.Broadcasting;
-import com.example.canteenchecker.consumerapp.core.ReviewData;
-import com.example.canteenchecker.consumerapp.proxy.ServiceProxyFactory;
-*/
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import com.example.canteenchecker.adminapp.CanteenCheckerAdminApplication;
 import com.example.canteenchecker.adminapp.R;
+import com.example.canteenchecker.adminapp.core.Broadcasting;
 import com.example.canteenchecker.adminapp.core.ReviewData;
 import com.example.canteenchecker.adminapp.proxy.ServiceProxyFactory;
 
@@ -43,11 +35,13 @@ public class ReviewsFragment extends Fragment {
     private static final String CANTEEN_ID_KEY = "CanteenId";
     private static final int LOGIN_FOR_REVIEW_CREATION = 4711;  // just some number, nothing specific
 
-    public static Fragment create() {
+
+    public static Fragment create(String canteenId) {
         ReviewsFragment reviewsFragment = new ReviewsFragment();
         Bundle arguments = new Bundle();
-        //arguments.putString(CANTEEN_ID_KEY, canteenId);
+        arguments.putString(CANTEEN_ID_KEY, canteenId);
         reviewsFragment.setArguments(arguments);
+
         return reviewsFragment;
     }
 
@@ -55,11 +49,9 @@ public class ReviewsFragment extends Fragment {
         @Override
         public void onReceive(Context context, Intent intent) {
             String canteenId = getCanteenId();
-            /*if (canteenId != null && canteenId.equals(Broadcasting.extractCanteenId(intent))) {
+            if (canteenId != null && canteenId.equals(Broadcasting.extractCanteenId(intent))) {
                 updateReviews();
             }
-
-             */
         }
     };
 
@@ -87,7 +79,7 @@ public class ReviewsFragment extends Fragment {
         prbRatingsFive = view.findViewById(R.id.prbRatingsFive);
 
         view.findViewById(R.id.btnShowReviews).setOnClickListener(v -> v.getContext().startActivity(EditReviewsActivity.createIntent(v.getContext())));
-        //LocalBroadcastManager.getInstance(getActivity()).registerReceiver(broadcastReceiver, Broadcasting.createCanteenChangedBroadcastIntentFilter());
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(broadcastReceiver, Broadcasting.createCanteenChangedBroadcastIntentFilter());
         updateReviews();
 
         return view;
@@ -169,7 +161,7 @@ public class ReviewsFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        //LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(broadcastReceiver); // ! ! !
+        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(broadcastReceiver); // ! ! !
     }
 
     /*@SuppressWarnings("StaticFieldLeak")

@@ -1,37 +1,32 @@
 package com.example.canteenchecker.adminapp.ui;
 
 import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-
-import com.example.canteenchecker.adminapp.CanteenCheckerAdminApplication;
-import com.example.canteenchecker.adminapp.core.Review;
-import com.example.canteenchecker.adminapp.proxy.ServiceProxyFactory;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RatingBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.canteenchecker.adminapp.CanteenCheckerAdminApplication;
 import com.example.canteenchecker.adminapp.R;
+import com.example.canteenchecker.adminapp.core.Broadcasting;
+import com.example.canteenchecker.adminapp.core.CanteenDetails;
+import com.example.canteenchecker.adminapp.core.Review;
+import com.example.canteenchecker.adminapp.proxy.ServiceProxyFactory;
 
 import java.io.IOException;
 import java.text.NumberFormat;
@@ -49,6 +44,17 @@ public class EditReviewsActivity extends AppCompatActivity {
 
     private final ReviewsAdapter reviewsAdapter = new ReviewsAdapter();
 
+    private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            CanteenDetails canteen = ((CanteenCheckerAdminApplication) getApplication()).getCanteenDetails();
+            String canteenId = canteen.getId();
+            if (canteenId != null && canteenId.equals(Broadcasting.extractCanteenId(intent))) {
+                updateReviews();
+            }
+        }
+    };
+
     //private SwipeRefreshLayout srlSwipeRefreshLayout;
 
     @Override
@@ -60,20 +66,15 @@ public class EditReviewsActivity extends AppCompatActivity {
         rcvReviews.setLayoutManager(new LinearLayoutManager(this));
         rcvReviews.setAdapter(reviewsAdapter);
 
+        LocalBroadcastManager.getInstance(this).registerReceiver(broadcastReceiver, Broadcasting.createCanteenChangedBroadcastIntentFilter());
 
         updateReviews();
+    }
 
-        /*FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-         */
-
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(broadcastReceiver);
     }
 
     private void updateReviews() {
@@ -177,6 +178,7 @@ public class EditReviewsActivity extends AppCompatActivity {
                                             // ToDo validating the data, also in the FE
                                             String authToken = ((CanteenCheckerAdminApplication) getApplication()).getAuthenticationToken();
                                             boolean done = ServiceProxyFactory.createProxy().removeCanteenReview(authToken, id);
+                                            updateReviews();
                                             // ToDo add a toast or something
                                         } catch (IOException e) {
                                             Log.e(TAG, String.format("Updating dish failed"), e);

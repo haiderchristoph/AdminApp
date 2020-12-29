@@ -1,6 +1,5 @@
 package com.example.canteenchecker.adminapp.ui;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -13,10 +12,6 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-/*import com.example.canteenchecker.consumerapp.CanteenCheckerApplication;
-import com.example.canteenchecker.consumerapp.R;
-import com.example.canteenchecker.consumerapp.proxy.ServiceProxyFactory;
-*/
 import com.example.canteenchecker.adminapp.CanteenCheckerAdminApplication;
 import com.example.canteenchecker.adminapp.R;
 import com.example.canteenchecker.adminapp.proxy.ServiceProxyFactory;

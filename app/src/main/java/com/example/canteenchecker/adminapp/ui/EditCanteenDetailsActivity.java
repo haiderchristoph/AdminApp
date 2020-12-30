@@ -7,9 +7,12 @@ import android.location.Geocoder;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -45,13 +48,14 @@ public class EditCanteenDetailsActivity extends AppCompatActivity {
 
     private CanteenDetails canteenDetails = null;
     private View editViewProgress;
-    private View editViewContent;
+    private ScrollView editViewContent;
 
     private EditText editName;
     private EditText editWebsite;
     private EditText editPhoneNumber;
     private EditText editLocation;
     private SupportMapFragment mpfMap;
+    private ImageView imgTransparent;
     Button btnUpdateBasicData;
 
     private EditText editDish;
@@ -70,11 +74,39 @@ public class EditCanteenDetailsActivity extends AppCompatActivity {
         editViewProgress = findViewById(R.id.editViewProgress);
         editViewContent = findViewById(R.id.editViewContent);
 
+        imgTransparent = findViewById(R.id.imgTransparent);
+
+        imgTransparent.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                int action = event.getAction();
+                switch (action) {
+                    case MotionEvent.ACTION_DOWN:
+                        // Disallow ScrollView to intercept touch events.
+                        editViewContent.requestDisallowInterceptTouchEvent(true);
+                        // Disable touch on transparent view
+                        return false;
+
+                    case MotionEvent.ACTION_UP:
+                        // Allow ScrollView to intercept touch events.
+                        editViewContent.requestDisallowInterceptTouchEvent(false);
+                        return true;
+
+                    case MotionEvent.ACTION_MOVE:
+                        editViewContent.requestDisallowInterceptTouchEvent(true);
+                        return false;
+                    default:
+                        return true;
+                }
+            }
+        });
+
         // ==== Basic Data ====
         editName = findViewById(R.id.editName);
         editWebsite = findViewById(R.id.editWebsite);
         editPhoneNumber = findViewById(R.id.editPhoneNumber);
         editLocation = findViewById(R.id.editLocation);
+
 
         mpfMap = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mpfMap);
         mpfMap.getMapAsync(new OnMapReadyCallback() {

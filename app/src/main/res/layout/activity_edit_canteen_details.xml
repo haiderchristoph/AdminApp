@@ -26,44 +26,63 @@
                 style="@style/TextAppearance.MaterialComponents.Headline6"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/text_basic_data"/>
+                android:text="@string/text_basic_data" />
 
             <EditText
                 android:id="@+id/editName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_name"
-                android:singleLine="true"
-                android:inputType="text" />
+                android:inputType="text"
+                android:singleLine="true" />
+
             <EditText
                 android:id="@+id/editWebsite"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_website"
-                android:singleLine="true"
-                android:inputType="textWebEmailAddress" />
+                android:inputType="textWebEmailAddress"
+                android:singleLine="true" />
 
             <EditText
                 android:id="@+id/editPhoneNumber"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_phone"
-                android:singleLine="true"
-                android:inputType="phone"/>
+                android:inputType="phone"
+                android:singleLine="true" />
 
             <EditText
                 android:id="@+id/editLocation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_location"
-                android:singleLine="true"
-                android:inputType="text" />
-            <fragment
-                android:id="@+id/mpfMap"
-                class="com.google.android.gms.maps.SupportMapFragment"
+                android:inputType="text"
+                android:singleLine="true" />
+
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/height_canteen_details_map"
-                android:layout_marginTop="@dimen/distance_small" />
+                android:layout_height="wrap_content">
+
+                <fragment
+                    android:id="@+id/mpfMap"
+                    class="com.google.android.gms.maps.SupportMapFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/height_canteen_details_map"
+                    android:layout_marginTop="@dimen/distance_small" />
+
+                <ImageView
+                    android:id="@+id/imgTransparent"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/height_canteen_details_map"
+                    android:layout_alignStart="@+id/mpfMap"
+                    android:layout_alignLeft="@+id/mpfMap"
+                    android:layout_alignTop="@+id/mpfMap"
+                    android:layout_alignEnd="@+id/mpfMap"
+                    android:layout_alignRight="@+id/mpfMap"
+                    android:layout_alignBottom="@+id/mpfMap"
+                    android:src="@color/transparent" />
+            </RelativeLayout>
 
             <Button
                 android:id="@+id/btnUpdateBasicData"
@@ -76,24 +95,24 @@
                 style="@style/TextAppearance.MaterialComponents.Headline6"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/text_dish_data"
-                android:layout_marginTop="@dimen/distance_medium"/>
+                android:layout_marginTop="@dimen/distance_medium"
+                android:text="@string/text_dish_data" />
 
             <EditText
                 android:id="@+id/editDish"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_dish"
-                android:singleLine="true"
-                android:inputType="text"/>
+                android:inputType="text"
+                android:singleLine="true" />
 
             <EditText
                 android:id="@+id/editDishPrice"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_dish_price"
-                android:singleLine="true"
-                android:inputType="numberDecimal"/>
+                android:inputType="numberDecimal"
+                android:singleLine="true" />
 
             <Button
                 android:id="@+id/btnUpdateDish"
@@ -106,17 +125,16 @@
                 style="@style/TextAppearance.MaterialComponents.Headline6"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/text_waiting_time_data"
-                android:layout_marginTop="@dimen/distance_medium"/>
+                android:layout_marginTop="@dimen/distance_medium"
+                android:text="@string/text_waiting_time_data" />
 
             <EditText
                 android:id="@+id/editWaitingTime"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_waiting_time"
-                android:singleLine="true"
                 android:inputType="number"
-                />
+                android:singleLine="true" />
 
             <Button
                 android:id="@+id/btnUpdateWaitingTime"

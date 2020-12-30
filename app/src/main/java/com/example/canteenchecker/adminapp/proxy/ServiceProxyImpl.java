@@ -36,34 +36,34 @@ public class ServiceProxyImpl implements ServiceProxy {
 
     @Override
     public CanteenDetails getCanteen(String authToken) throws IOException {
-        Proxy_CanteenDetails canteen = proxy.getCanteen(String.format("Bearer %s", authToken)).execute().body();
+        Proxy_CanteenDetails canteen = proxy.getCanteen(getFormattedBearerToken(authToken)).execute().body();
         return canteen != null ? canteen.toCanteenDetails() : null;
     }
 
     @Override
     public void updateCanteenData(String authToken, String name, String website, String phoneNumber, String address) throws IOException {
-        proxy.updateCanteenData(String.format("Bearer %s", authToken), name, website, phoneNumber, address).execute().headers();
+        proxy.updateCanteenData(getFormattedBearerToken(authToken), name, website, phoneNumber, address).execute().headers();
     }
 
     @Override
     public void updateCanteenDish(String authToken, String dish, float dishPrice) throws IOException {
-        proxy.updateCanteenDish(String.format("Bearer %s", authToken), dish, dishPrice).execute().body();
+        proxy.updateCanteenDish(getFormattedBearerToken(authToken), dish, dishPrice).execute().body();
     }
 
     @Override
     public void updateCanteenWaitingTime(String authToken, int waitingTime) throws IOException {
-        proxy.updateCanteenWaitingTime(String.format("Bearer %s", authToken), waitingTime).execute().body();
+        proxy.updateCanteenWaitingTime(getFormattedBearerToken(authToken), waitingTime).execute().body();
     }
 
     @Override
     public ReviewData getCanteenReviewsData(String authToken) throws IOException {
-        Proxy_CanteenReviewStatistics reviewData = proxy.getCanteenReviewStatistics(String.format("Bearer %s", authToken)).execute().body();
+        Proxy_CanteenReviewStatistics reviewData = proxy.getCanteenReviewStatistics(getFormattedBearerToken(authToken)).execute().body();
         return reviewData != null ? reviewData.toReviewData() : null;
     }
 
     @Override
     public Collection<Review> getCanteenReviews(String authToken) throws IOException {
-        Collection<Proxy_CanteenReview> reviews = proxy.getCanteenReviews(String.format("Bearer %s", authToken)).execute().body();
+        Collection<Proxy_CanteenReview> reviews = proxy.getCanteenReviews(getFormattedBearerToken(authToken)).execute().body();
         if (reviews == null) {
             return null;
         }
@@ -76,7 +76,11 @@ public class ServiceProxyImpl implements ServiceProxy {
 
     @Override
     public void removeCanteenReview(String authToken, String reviewId) throws IOException {
-        proxy.removeCanteenReview(String.format("Bearer %s", authToken), reviewId).execute().body();
+        proxy.removeCanteenReview(getFormattedBearerToken(authToken), reviewId).execute().body();
+    }
+
+    private String getFormattedBearerToken(String token) {
+        return String.format("Bearer %s", token);
     }
 
     private interface Proxy {

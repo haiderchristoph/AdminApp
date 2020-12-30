@@ -163,11 +163,9 @@ public class OverviewFragment extends Fragment {
                                     Address address = addresses.get(0);
                                     location = new LatLng(address.getLatitude(), address.getLongitude());
                                 } else {
-                                    // TODO Logging
                                     Log.w(TAG, String.format("No locations found for '%s'", strings[0]));
                                 }
                             } catch (IOException e) {
-                                // TODO Logging
                                 Log.w(TAG, String.format("Locations lookup for '%s' failed", strings[0]));
                             }
                             return location;

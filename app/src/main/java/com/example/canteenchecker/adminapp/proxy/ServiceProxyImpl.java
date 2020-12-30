@@ -52,7 +52,6 @@ public class ServiceProxyImpl implements ServiceProxy {
 
     @Override
     public void updateCanteenWaitingTime(String authToken, int waitingTime) throws IOException {
-        // ToDo: check if header can be read for result
         proxy.updateCanteenWaitingTime(String.format("Bearer %s", authToken), waitingTime).execute().body();
     }
 

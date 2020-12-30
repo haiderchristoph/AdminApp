@@ -84,8 +84,7 @@ public class ReviewsDetailsFragment extends Fragment {
             @Override
             protected Collection<Review> doInBackground(String... strings) {
                 try {
-                    String authToken = ((CanteenCheckerAdminApplication) getActivity().getApplication()).getAuthenticationToken();
-                    return ServiceProxyFactory.createProxy().getCanteenReviews(authToken);
+                    return ServiceProxyFactory.createProxy().getCanteenReviews(strings[0]);
                 } catch (IOException e) {
                     Log.e(TAG, "Downloading of reviews failed.", e);
                     return null;
@@ -94,13 +93,13 @@ public class ReviewsDetailsFragment extends Fragment {
 
             @Override
             protected void onPostExecute(Collection<Review> reviews) {
-                reviewsAdapter.displayReviews(reviews);   // ToDo: rename
+                reviewsAdapter.displayReviews(reviews);
                 Log.i(TAG, "Reviews loaded");
                 if (reviews != null) {
                     Log.i(TAG, "Reviews loaded: " + reviews.size());
                 }
             }
-        }.execute();
+        }.execute(((CanteenCheckerAdminApplication) getActivity().getApplication()).getAuthenticationToken());
     }
 
     private class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ViewHolder> {

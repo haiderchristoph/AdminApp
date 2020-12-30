@@ -71,4 +71,7 @@
     <string name="dialog_text">Do you really want to delete this review? This action is irreversible and will affect your overall rating.</string>
 
     <string name="menu_text_logout">Logout</string>
+    <string name="text_basic_data">Basic Data</string>
+    <string name="text_waiting_time_data">Waiting Time</string>
+    <string name="text_dish_data">Dish Data</string>
 </resources>

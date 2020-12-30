@@ -125,7 +125,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
-        android:src="@drawable/ic_launcher_background"
+        android:src="@drawable/baseline_edit_24"
         android:contentDescription="@string/text_edit"
         android:layout_margin="16dp" />
 </FrameLayout>

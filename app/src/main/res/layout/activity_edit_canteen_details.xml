@@ -21,6 +21,13 @@
             android:orientation="vertical"
             android:padding="@dimen/distance_medium">
 
+            <TextView
+                android:id="@+id/txvBasicData"
+                style="@style/TextAppearance.MaterialComponents.Headline6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/text_basic_data"/>
+
             <EditText
                 android:id="@+id/editName"
                 android:layout_width="match_parent"
@@ -37,6 +44,14 @@
                 android:inputType="textWebEmailAddress" />
 
             <EditText
+                android:id="@+id/editPhoneNumber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_phone"
+                android:singleLine="true"
+                android:inputType="phone"/>
+
+            <EditText
                 android:id="@+id/editLocation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -50,19 +65,19 @@
                 android:layout_height="@dimen/height_canteen_details_map"
                 android:layout_marginTop="@dimen/distance_small" />
 
-            <EditText
-                android:id="@+id/editPhoneNumber"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/hint_phone"
-                android:singleLine="true"
-                android:inputType="phone"/>
-
             <Button
                 android:id="@+id/btnUpdateBasicData"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/text_update_basic_data" />
+
+            <TextView
+                android:id="@+id/txvDishData"
+                style="@style/TextAppearance.MaterialComponents.Headline6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/text_dish_data"
+                android:layout_marginTop="@dimen/distance_medium"/>
 
             <EditText
                 android:id="@+id/editDish"
@@ -85,6 +100,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/text_update_dish" />
+
+            <TextView
+                android:id="@+id/txvWaitingTimeData"
+                style="@style/TextAppearance.MaterialComponents.Headline6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/text_waiting_time_data"
+                android:layout_marginTop="@dimen/distance_medium"/>
 
             <EditText
                 android:id="@+id/editWaitingTime"

@@ -7,6 +7,13 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,12 +21,6 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.RatingBar;
 import android.widget.TextView;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.canteenchecker.adminapp.CanteenCheckerAdminApplication;
 import com.example.canteenchecker.adminapp.R;
@@ -36,12 +37,10 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
-public class EditReviewsActivity extends AppCompatActivity {
-    private static final String TAG = EditReviewsActivity.class.toString();
-
-    public static Intent createIntent(Context context) {
-        Intent intent = new Intent(context, EditReviewsActivity.class);
-        return intent;
+public class ReviewsDetailsFragment extends Fragment {
+    private static final String TAG = ReviewsDetailsFragment.class.toString();
+    public ReviewsDetailsFragment() {
+        // Required empty public constructor
     }
 
     private final ReviewsAdapter reviewsAdapter = new ReviewsAdapter();
@@ -49,7 +48,7 @@ public class EditReviewsActivity extends AppCompatActivity {
     private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            CanteenDetails canteen = ((CanteenCheckerAdminApplication) getApplication()).getCanteenDetails();
+            CanteenDetails canteen = ((CanteenCheckerAdminApplication) getActivity().getApplication()).getCanteenDetails();
             String canteenId = canteen.getId();
             if (canteenId != null && canteenId.equals(Broadcasting.extractCanteenId(intent))) {
                 updateReviews();
@@ -58,23 +57,25 @@ public class EditReviewsActivity extends AppCompatActivity {
     };
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit_reviews);
-
-        RecyclerView rcvReviews = findViewById(R.id.rcvReviews);
-        rcvReviews.setLayoutManager(new LinearLayoutManager(this));
-        rcvReviews.setAdapter(reviewsAdapter);
-
-        LocalBroadcastManager.getInstance(this).registerReceiver(broadcastReceiver, Broadcasting.createCanteenChangedBroadcastIntentFilter());
-
-        updateReviews();
+    public void onDestroy() {
+        super.onDestroy();
+        LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(broadcastReceiver);
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(broadcastReceiver);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_reviews_details, container, false);
+
+        RecyclerView rcvReviews = view.findViewById(R.id.rcvReviews);
+        rcvReviews.setLayoutManager(new LinearLayoutManager(getContext()));
+        rcvReviews.setAdapter(reviewsAdapter);
+
+        LocalBroadcastManager.getInstance(getContext()).registerReceiver(broadcastReceiver, Broadcasting.createCanteenChangedBroadcastIntentFilter());
+
+        updateReviews();
+        return view;
     }
 
     private void updateReviews() {
@@ -82,7 +83,7 @@ public class EditReviewsActivity extends AppCompatActivity {
             @Override
             protected Collection<Review> doInBackground(String... strings) {
                 try {
-                    String authToken = ((CanteenCheckerAdminApplication) getApplication()).getAuthenticationToken();
+                    String authToken = ((CanteenCheckerAdminApplication) getActivity().getApplication()).getAuthenticationToken();
                     return ServiceProxyFactory.createProxy().getCanteenReviews(authToken);
                 } catch (IOException e) {
                     Log.e(TAG, "Downloading of reviews failed.", e);
@@ -106,13 +107,13 @@ public class EditReviewsActivity extends AppCompatActivity {
 
         @NonNull
         @Override
-        public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        public ReviewsAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_review, parent, false);
-            return new ViewHolder(view);
+            return new ReviewsAdapter.ViewHolder(view);
         }
 
         @Override
-        public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        public void onBindViewHolder(@NonNull ReviewsAdapter.ViewHolder holder, int position) {
             holder.updateView(reviewList.get(position));
         }
 
@@ -167,7 +168,7 @@ public class EditReviewsActivity extends AppCompatActivity {
             }
 
             private void removeRating(String id) {
-                new AlertDialog.Builder(EditReviewsActivity.this)
+                new AlertDialog.Builder(getContext())
                         .setTitle(R.string.dialog_title)
                         .setMessage(R.string.dialog_text)
                         .setIcon(R.drawable.baseline_warning_24)
@@ -185,7 +186,7 @@ public class EditReviewsActivity extends AppCompatActivity {
                                         }
                                         return null;
                                     }
-                                }.execute(((CanteenCheckerAdminApplication) getApplication()).getAuthenticationToken(), id);
+                                }.execute(((CanteenCheckerAdminApplication) getActivity().getApplication()).getAuthenticationToken(), id);
                             }
                         })
                         .setNegativeButton(R.string.dialog_dismiss, null).show();

@@ -13,10 +13,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AdminApp">
         <activity
-            android:name=".ui.EditReviewsActivity"
-            android:label="@string/title_activity_edit_reviews"
-            android:theme="@style/Theme.AdminApp.NoActionBar"></activity>
-        <activity
             android:name=".ui.EditCanteenDetailsActivity"
             android:label="@string/title_activity_edit_canteen_details"
             android:theme="@style/Theme.AdminApp.NoActionBar" />

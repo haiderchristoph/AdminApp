@@ -9,12 +9,11 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
-import android.app.Fragment;
+import androidx.fragment.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -24,6 +23,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import com.example.canteenchecker.adminapp.CanteenCheckerAdminApplication;
 import com.example.canteenchecker.adminapp.R;
 import com.example.canteenchecker.adminapp.core.Broadcasting;
+import com.example.canteenchecker.adminapp.core.CanteenDetails;
 import com.example.canteenchecker.adminapp.core.ReviewData;
 import com.example.canteenchecker.adminapp.proxy.ServiceProxyFactory;
 
@@ -35,6 +35,7 @@ public class ReviewsFragment extends Fragment {
     private static final String CANTEEN_ID_KEY = "CanteenId";
     private static final int LOGIN_FOR_REVIEW_CREATION = 4711;  // just some number, nothing specific
 
+    private static String canteenId;
 
     public static Fragment create(String canteenId) {
         ReviewsFragment reviewsFragment = new ReviewsFragment();
@@ -48,7 +49,8 @@ public class ReviewsFragment extends Fragment {
     private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            String canteenId = getCanteenId();
+            CanteenDetails canteen = ((CanteenCheckerAdminApplication) getActivity().getApplication()).getCanteenDetails();
+            String canteenId = canteen.getId();
             if (canteenId != null && canteenId.equals(Broadcasting.extractCanteenId(intent))) {
                 updateReviews();
             }
@@ -69,6 +71,8 @@ public class ReviewsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_reviews, container, false);
+        CanteenDetails canteen = ((CanteenCheckerAdminApplication) getActivity().getApplication()).getCanteenDetails();
+        canteenId = canteen.getId();
         txvAverageRating = view.findViewById(R.id.txvAverageRating);
         rtbAverageRating = view.findViewById(R.id.rtbAverageRating);
         txvTotalRatings = view.findViewById(R.id.txvTotalRatings);
@@ -78,7 +82,6 @@ public class ReviewsFragment extends Fragment {
         prbRatingsFour = view.findViewById(R.id.prbRatingsFour);
         prbRatingsFive = view.findViewById(R.id.prbRatingsFive);
 
-        view.findViewById(R.id.btnShowReviews).setOnClickListener(v -> v.getContext().startActivity(EditReviewsActivity.createIntent(v.getContext())));
         LocalBroadcastManager.getInstance(getActivity()).registerReceiver(broadcastReceiver, Broadcasting.createCanteenChangedBroadcastIntentFilter());
         updateReviews();
 
@@ -86,8 +89,9 @@ public class ReviewsFragment extends Fragment {
     }
 
     private String getCanteenId(){
-        return getArguments().getString(CANTEEN_ID_KEY);
+        return canteenId;
     }
+
 
     @SuppressWarnings("StaticFieldLeak")
     private void updateReviews() {
@@ -150,54 +154,8 @@ public class ReviewsFragment extends Fragment {
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == LOGIN_FOR_REVIEW_CREATION && resultCode == Activity.RESULT_OK) {
-            //createReview();
-        }
-    }
-
-    @Override
     public void onDestroyView() {
         super.onDestroyView();
         LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(broadcastReceiver); // ! ! !
     }
-
-    /*@SuppressWarnings("StaticFieldLeak")
-    private void createReview() {
-        final Activity activity = getActivity();
-        if (! ((CanteenCheckerAdminApplication) activity.getApplication()).isAuthenticated()) {
-            //startActivityForResult(LoginActivity.createIntent(activity), LOGIN_FOR_REVIEW_CREATION);
-        } else {
-            final View view = LayoutInflater.from(activity).inflate(R.layout.dialog_add_review, null);
-            new AlertDialog.Builder(activity).setTitle(R.string.dialog_add_review).setView(view).setPositiveButton(R.string.text_send, (dialog, which) -> {
-                dialog.dismiss();
-                new AsyncTask<Object, Void, Boolean>() {
-                    @SuppressLint("StaticFieldLeak")
-                    @Override
-                    protected Boolean doInBackground(Object... objects) {
-                        try {
-                            ServiceProxyFactory.createProxy().createReview((String) objects[0], (String) objects[1], (int) objects[2], (String) objects[3]);
-                            return true;
-                        } catch (IOException e) {
-                            Log.e(TAG, "Review creation failed.", e);
-                            return false;
-                        }
-                    }
-
-                    @Override
-                    protected void onPostExecute(Boolean aBoolean) {
-                        Toast.makeText(activity, aBoolean ? R.string.message_review_created : R.string.message_review_not_created, Toast.LENGTH_SHORT).show();
-                        //LocalBroadcastManager.getInstance(activity).sendBroadcast(Broadcasting.createCanteenChangedBroadcastIntent(getCanteenId()));
-                    }
-                }.execute(((CanteenCheckerAdminApplication) activity.getApplication()).getAuthenticationToken(),
-                        getCanteenId(),
-                        Math.round(((RatingBar) view.findViewById(R.id.rtbRating)).getRating()),
-                        ((EditText) view.findViewById(R.id.edtRemark)).getText().toString());
-            }).create().show();
-        }
-    }
-
-     */
 }

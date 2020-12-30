@@ -1,5 +1,13 @@
 <resources>
+    <!-- Commonly used Strings -->
     <string name="app_name">AdminApp</string>
+    <string name="update_successful">Update successful</string>
+    <string name="update_failed">Update failed</string>
+    <string name="menu_text_logout">Logout</string>
+    <string name="text_basic_data">Basic Data</string>
+    <string name="text_waiting_time_data">Waiting Time</string>
+    <string name="text_dish_data">Dish Data</string>
+
     <!-- Strings related to login -->
     <string name="prompt_username">Username</string>
     <string name="prompt_password">Password</string>
@@ -10,14 +18,6 @@
     <string name="invalid_password">Password must not be empty</string>
     <string name="login_failed">"Login failed"</string>
     <string name="title_activity_canteen_details">CanteenDetailsActivity</string>
-    <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
-
-    <string name="hello_first_fragment">Hello first fragment</string>
-    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
 
     <!-- CanteenDetailsActivity -->
     <string name="text_dish">Dish of the day</string>
@@ -28,11 +28,6 @@
     <string name="text_phone_number">Phone</string>
     <string name="text_website">Website</string>
     <string name="message_canteen_not_found">Canteen not found</string>
-    <string name="text_call">Call</string>
-    <string name="message_no_call_permission">No permission to make phone call</string>
-    <string name="message_call_not_possible">Call not possible</string>
-    <string name="message_show_website_not_possible">Showing of website not possible</string>
-    <string name="title_activity_edit_canteen_details">EditCanteenDetailsActivity</string>
     <string name="text_edit">Edit</string>
 
     <!-- ReviewsFragment -->
@@ -42,9 +37,9 @@
     <string name="text_three">3</string>
     <string name="text_two">2</string>
     <string name="text_one">1</string>
-    <string name="text_show_reviews">Show reviews</string>
 
     <!-- EditCanteenDetailsActivity -->
+    <string name="edit_activity_name">Edit Canteen</string>
     <string name="hint_name">Name</string>
     <string name="hint_website">Website</string>
     <string name="hint_phone">Phone Number</string>
@@ -55,23 +50,14 @@
     <string name="text_update_dish">Update Dish</string>
     <string name="hint_waiting_time">Waiting Time (minutes)</string>
     <string name="text_update_waiting_time">Update Waiting Time</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_activity_edit_reviews">EditReviewsActivity</string>
     <string name="invalid_waiting_time">Waiting time must be a number</string>
     <string name="invalid_dish_price">Invalid dish price</string>
     <string name="invalid_dish_name">Invalid dish name</string>
-    <string name="update_successful">Update successful</string>
-    <string name="update_failed">Update failed</string>
+
 
     <!-- EditCanteenDetailsActivity AlertDialog -->
     <string name="dialog_confirm">Confirm</string>
     <string name="dialog_dismiss">Dismiss</string>
     <string name="dialog_title">Delete Review</string>
     <string name="dialog_text">Do you really want to delete this review? This action is irreversible and will affect your overall rating.</string>
-
-    <string name="menu_text_logout">Logout</string>
-    <string name="text_basic_data">Basic Data</string>
-    <string name="text_waiting_time_data">Waiting Time</string>
-    <string name="text_dish_data">Dish Data</string>
 </resources>

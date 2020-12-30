@@ -129,11 +129,9 @@ public class EditCanteenDetailsActivity extends AppCompatActivity {
                         Address address = addresses.get(0);
                         location = new LatLng(address.getLatitude(), address.getLongitude());
                     } else {
-                        // TODO Logging
                         Log.w(TAG, String.format("No locations found for '%s'", strings[0]));
                     }
                 } catch (IOException e) {
-                    // TODO Logging
                     Log.w(TAG, String.format("Locations lookup for '%s' failed", strings[0]));
                 }
                 return location;
@@ -148,7 +146,7 @@ public class EditCanteenDetailsActivity extends AppCompatActivity {
                         googleMap.addMarker(new MarkerOptions().position(latLng).draggable(true));
                         googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, DEFAULT_MAP_ZOOM_FACTOR));
                     } else {
-                        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(0,0), 0));
+                        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(0, 0), 0));
                     }
                     googleMap.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener() {
                         @Override
@@ -268,6 +266,7 @@ public class EditCanteenDetailsActivity extends AppCompatActivity {
                 Toast.makeText(EditCanteenDetailsActivity.this, R.string.update_failed, Toast.LENGTH_SHORT).show();
                 return false;
             }
+
             @Override
             protected void onPostExecute(Boolean success) {
                 if (!success) {
@@ -292,7 +291,7 @@ public class EditCanteenDetailsActivity extends AppCompatActivity {
                     dishPriceString = dishPriceString.replace(',', '.');
                     if (isValidFloat(dishPriceString)) {
                         float dishPrice = Float.parseFloat(dishPriceString);
-                        boolean done = ServiceProxyFactory.createProxy().updateCanteenDish(strings[0], strings[2], dishPrice);
+                        ServiceProxyFactory.createProxy().updateCanteenDish(strings[0], strings[2], dishPrice);
                         return true;
                     } else {
                         return false;
@@ -303,6 +302,7 @@ public class EditCanteenDetailsActivity extends AppCompatActivity {
                 Toast.makeText(EditCanteenDetailsActivity.this, R.string.update_failed, Toast.LENGTH_SHORT).show();
                 return false;
             }
+
             @Override
             protected void onPostExecute(Boolean success) {
                 if (!success) {
@@ -328,6 +328,7 @@ public class EditCanteenDetailsActivity extends AppCompatActivity {
                 }
                 return false;
             }
+
             @Override
             protected void onPostExecute(Boolean success) {
                 if (!success) {

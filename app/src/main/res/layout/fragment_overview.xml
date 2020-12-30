@@ -68,6 +68,7 @@
                     android:layout_marginStart="@dimen/distance_small"
                     android:text="@string/text_minutes" />
             </LinearLayout>
+
             <ProgressBar
                 android:id="@+id/prbWaitingTime"
                 style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
@@ -120,12 +121,13 @@
                 android:layout_marginTop="@dimen/distance_small" />
         </LinearLayout>
     </ScrollView>
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
-        android:src="@drawable/baseline_edit_24"
+        android:layout_margin="16dp"
         android:contentDescription="@string/text_edit"
-        android:layout_margin="16dp" />
+        android:src="@drawable/baseline_edit_24" />
 </FrameLayout>

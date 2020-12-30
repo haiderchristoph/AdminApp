@@ -39,6 +39,7 @@ import java.util.List;
 
 public class ReviewsDetailsFragment extends Fragment {
     private static final String TAG = ReviewsDetailsFragment.class.toString();
+
     public ReviewsDetailsFragment() {
         // Required empty public constructor
     }
@@ -92,11 +93,11 @@ public class ReviewsDetailsFragment extends Fragment {
             }
 
             @Override
-            protected void onPostExecute(Collection<Review> canteens) {
-                reviewsAdapter.displayCanteens(canteens);   // ToDo: rename
+            protected void onPostExecute(Collection<Review> reviews) {
+                reviewsAdapter.displayReviews(reviews);   // ToDo: rename
                 Log.i(TAG, "Reviews loaded");
-                if (canteens != null) {
-                    Log.i(TAG, "Reviews loaded: " + canteens.size());
+                if (reviews != null) {
+                    Log.i(TAG, "Reviews loaded: " + reviews.size());
                 }
             }
         }.execute();
@@ -122,10 +123,10 @@ public class ReviewsDetailsFragment extends Fragment {
             return reviewList.size();
         }
 
-        void displayCanteens(Collection<Review> canteens) {
+        void displayReviews(Collection<Review> reviews) {
             reviewList.clear();
-            if (canteens != null) {
-                reviewList.addAll(canteens);
+            if (reviews != null) {
+                reviewList.addAll(reviews);
             }
             notifyDataSetChanged();
         }

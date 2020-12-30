@@ -41,22 +41,19 @@ public class ServiceProxyImpl implements ServiceProxy {
     }
 
     @Override
-    public boolean updateCanteenData(String authToken, String name, String website, String phoneNumber, String address) throws IOException {
-        proxy.updateCanteenData(String.format("Bearer %s", authToken), name, website, phoneNumber, address).execute().body();
-        return true;
+    public void updateCanteenData(String authToken, String name, String website, String phoneNumber, String address) throws IOException {
+        proxy.updateCanteenData(String.format("Bearer %s", authToken), name, website, phoneNumber, address).execute().headers();
     }
 
     @Override
-    public boolean updateCanteenDish(String authToken, String dish, float dishPrice) throws IOException {
+    public void updateCanteenDish(String authToken, String dish, float dishPrice) throws IOException {
         proxy.updateCanteenDish(String.format("Bearer %s", authToken), dish, dishPrice).execute().body();
-        return true;
     }
 
     @Override
-    public boolean updateCanteenWaitingTime(String authToken, int waitingTime) throws IOException {
+    public void updateCanteenWaitingTime(String authToken, int waitingTime) throws IOException {
         // ToDo: check if header can be read for result
         proxy.updateCanteenWaitingTime(String.format("Bearer %s", authToken), waitingTime).execute().body();
-        return true;
     }
 
     @Override
@@ -79,9 +76,8 @@ public class ServiceProxyImpl implements ServiceProxy {
     }
 
     @Override
-    public boolean removeCanteenReview(String authToken, String reviewId) throws IOException {
+    public void removeCanteenReview(String authToken, String reviewId) throws IOException {
         proxy.removeCanteenReview(String.format("Bearer %s", authToken), reviewId).execute().body();
-        return true;
     }
 
     private interface Proxy {

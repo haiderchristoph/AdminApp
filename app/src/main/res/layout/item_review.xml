@@ -58,15 +58,14 @@
 
         <ImageButton
             android:id="@+id/btnRemoveRating"
-            android:enabled="true"
             android:layout_width="@dimen/size_delete_button"
             android:layout_height="@dimen/size_delete_button"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             android:background="@drawable/baseline_delete_24"
             android:backgroundTint="@color/delete_red"
+            android:enabled="true"
             android:scaleType="center"
-            />
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

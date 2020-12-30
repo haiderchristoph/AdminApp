@@ -14,7 +14,7 @@
         android:theme="@style/Theme.AdminApp">
         <activity
             android:name=".ui.EditCanteenDetailsActivity"
-            android:label="@string/app_name"
+            android:label="@string/edit_activity_name"
              />
         <activity
             android:name=".ui.CanteenDetailsActivity"

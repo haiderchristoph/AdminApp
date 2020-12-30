@@ -45,14 +45,13 @@ public class CanteenDetailsActivity extends AppCompatActivity {
         mTabLayout.setupWithViewPager(mViewPager);
     }
 
-    private void setupViewPager(ViewPager viewPager){
+    private void setupViewPager(ViewPager viewPager) {
         viewPagerAdapter adapter = new viewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new OverviewFragment(),"Overview");
-        adapter.addFragment(new ReviewsDetailsFragment(),"Reviews");
-        adapter.addFragment(new ReviewsFragment(),"Statistic");
+        adapter.addFragment(new OverviewFragment(), "Overview");
+        adapter.addFragment(new ReviewsDetailsFragment(), "Reviews");
+        adapter.addFragment(new ReviewsFragment(), "Statistic");
 
         viewPager.setAdapter(adapter);
-
     }
 
     class viewPagerAdapter extends FragmentPagerAdapter {
@@ -75,7 +74,7 @@ public class CanteenDetailsActivity extends AppCompatActivity {
             return mFragmentList.size();
         }
 
-        public void addFragment (Fragment fragment, String tittle){
+        public void addFragment(Fragment fragment, String tittle) {
             mFragmentList.add(fragment);
             mFragmentTittleList.add(tittle);
         }

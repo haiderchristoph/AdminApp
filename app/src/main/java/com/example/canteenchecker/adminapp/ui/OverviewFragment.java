@@ -1,6 +1,5 @@
 package com.example.canteenchecker.adminapp.ui;
 
-import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -8,11 +7,6 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.os.AsyncTask;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +14,9 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.fragment.app.Fragment;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.example.canteenchecker.adminapp.CanteenCheckerAdminApplication;
 import com.example.canteenchecker.adminapp.R;
@@ -116,14 +113,13 @@ public class OverviewFragment extends Fragment {
             @Override
             protected CanteenDetails doInBackground(String... strings) {
                 try {
-                    String authToken = ((CanteenCheckerAdminApplication) getActivity().getApplication()).getAuthenticationToken();
-                    return ServiceProxyFactory.createProxy().getCanteen(authToken);
+                    return ServiceProxyFactory.createProxy().getCanteen(strings[0]);
                 } catch (IOException e) {
                     Log.e(TAG, String.format("Downloading of canteen failed."), e);
                 }
-                // TODO
                 return null;
             }
+
             @Override
             protected void onPostExecute(CanteenDetails canteenDetails) {
                 if (canteenDetails != null) {
@@ -185,17 +181,16 @@ public class OverviewFragment extends Fragment {
                                     googleMap.addMarker(new MarkerOptions().position(latLng));
                                     googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, DEFAULT_MAP_ZOOM_FACTOR));
                                 } else {
-                                    googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(0,0), 0));
+                                    googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(0, 0), 0));
                                 }
                             });
                         }
                     }.execute(canteenDetails.getLocation());
                 } else {
-                    // TODO what shall we do when canteen is not found?!
                     Toast.makeText(getContext(), R.string.message_canteen_not_found, Toast.LENGTH_SHORT).show();
                 }
                 super.onPostExecute(canteenDetails);
             }
-        }.execute("asdf");
+        }.execute(((CanteenCheckerAdminApplication) getActivity().getApplication()).getAuthenticationToken());
     }
 }

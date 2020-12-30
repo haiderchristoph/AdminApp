@@ -1,15 +1,10 @@
 package com.example.canteenchecker.adminapp.ui;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,7 +14,9 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
 import com.example.canteenchecker.adminapp.CanteenCheckerAdminApplication;
 import com.example.canteenchecker.adminapp.R;
 import com.example.canteenchecker.adminapp.core.Broadcasting;
@@ -33,7 +30,6 @@ import java.text.NumberFormat;
 public class ReviewsFragment extends Fragment {
     private static final String TAG = ReviewsFragment.class.toString();
     private static final String CANTEEN_ID_KEY = "CanteenId";
-    private static final int LOGIN_FOR_REVIEW_CREATION = 4711;  // just some number, nothing specific
 
     private static String canteenId;
 
@@ -88,7 +84,7 @@ public class ReviewsFragment extends Fragment {
         return view;
     }
 
-    private String getCanteenId(){
+    private String getCanteenId() {
         return canteenId;
     }
 
@@ -102,7 +98,7 @@ public class ReviewsFragment extends Fragment {
                 try {
                     String authToken = ((CanteenCheckerAdminApplication) getActivity().getApplication()).getAuthenticationToken();
                     return ServiceProxyFactory.createProxy().getCanteenReviewsData(authToken);
-                } catch(IOException e) {
+                } catch (IOException e) {
                     Log.e(TAG, String.format("Download of reviews for canteen failed."), e);
                     return null;
                 }

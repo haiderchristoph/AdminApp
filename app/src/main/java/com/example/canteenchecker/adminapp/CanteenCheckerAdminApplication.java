@@ -16,7 +16,6 @@ public class CanteenCheckerAdminApplication extends Application {
 
     public synchronized void setAuthenticationToken(String authenticationToken) { this.authenticationToken = authenticationToken; }
     public synchronized String getAuthenticationToken() { return authenticationToken; }
-    public synchronized boolean isAuthenticated() { return getAuthenticationToken() != null; }
 
     public synchronized void setCanteenDetails(CanteenDetails canteenDetails) { this.canteenDetails = canteenDetails; }
     public synchronized CanteenDetails getCanteenDetails() { return canteenDetails; }

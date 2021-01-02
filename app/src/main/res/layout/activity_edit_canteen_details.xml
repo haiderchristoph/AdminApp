@@ -22,7 +22,7 @@
             android:padding="@dimen/distance_medium">
 
             <TextView
-                style="@style/TextAppearance.MaterialComponents.Overline"
+                style="@style/TextAppearance.MaterialComponents.Headline6"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/text_basic_data" />

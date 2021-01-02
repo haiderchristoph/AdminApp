@@ -134,7 +134,7 @@ public class ReviewsDetailsFragment extends Fragment {
             // same format as on web Admin Dashboard
             try {
                 Date date = (new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS")).parse(value);
-                return new SimpleDateFormat("dd.mm.yyyy hh:mm:ss").format(date);
+                return new SimpleDateFormat("dd.MM.yyyy hh:mm:ss").format(date);
             } catch (Exception e) {
                 return value;
             }

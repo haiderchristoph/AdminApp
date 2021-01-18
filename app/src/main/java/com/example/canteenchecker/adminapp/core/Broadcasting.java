@@ -7,9 +7,7 @@ public class Broadcasting {
     private static final String CANTEEN_CHANGED_INTENT_ACTION = "CanteenChanged";
     private static final String CANTEEN_CHANGED_INTENT_CANTEEN_ID = "CanteenId";
 
-    private Broadcasting() {
-
-    }
+    private Broadcasting() {}
 
     public static Intent createCanteenChangedBroadcastIntent(String canteenId) {
         Intent intent = new Intent(CANTEEN_CHANGED_INTENT_ACTION);

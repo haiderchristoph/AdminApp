@@ -10,5 +10,4 @@
         android:clipToPadding="false"
         android:padding="@dimen/distance_small" />
 
-
 </androidx.constraintlayout.widget.ConstraintLayout>

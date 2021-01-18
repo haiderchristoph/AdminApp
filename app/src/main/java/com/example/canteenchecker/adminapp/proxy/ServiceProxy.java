@@ -8,14 +8,6 @@ import java.io.IOException;
 import java.util.Collection;
 
 public interface ServiceProxy {
-
-    /**
-     *
-     * @param userName
-     * @param password
-     * @return
-     * @throws IOException
-     */
     String authenticate(String userName, String password) throws IOException;
     CanteenDetails getCanteen(String authToken) throws IOException;
     void updateCanteenData(String authToken, String name, String website, String phoneNumber, String address) throws IOException;

@@ -152,6 +152,6 @@ public class ReviewsFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(broadcastReceiver); // ! ! !
+        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(broadcastReceiver);
     }
 }

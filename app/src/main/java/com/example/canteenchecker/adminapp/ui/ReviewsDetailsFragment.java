@@ -190,7 +190,6 @@ public class ReviewsDetailsFragment extends Fragment {
                             }
                         })
                         .setNegativeButton(R.string.dialog_dismiss, null).show();
-
             }
         }
     }
